@@ -1,9 +1,6 @@
-# Skill: Universal Agent Skill Creator (Hyper-Optimized)
-
 ---
-name: universal_skill_creator
+name: skill-creator-agnostic
 description: Generates highly portable, cross-platform AI agent skills equipped with advanced guardrails, negative triggers, and context variables. Fully compatible with Claude Code, Cursor, Aider, Windsurf, and Copilot.
-version: 2.5.0
 ---
 
 ## Context & Objectives
