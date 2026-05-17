@@ -43,6 +43,9 @@ npx skills add ./skill-tutor
 
 The skill will be available in all projects.
 
+### Manual Install
+clone the repo and copy the specific skill to your coding agent folder
+
 ### Verify
 
 After installing, run `/reload-plugins` in Claude Code, then check `/skills` to confirm it appears.
