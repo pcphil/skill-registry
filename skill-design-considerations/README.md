@@ -13,9 +13,9 @@ How models allocate focus. Critical instructions get ignored not because they're
 | File | Problem |
 |------|---------|
 | [Lost in the Middle](attention/01-lost-in-the-middle.md) | Rules buried mid-file get less attention than rules at the edges |
-| [Over-Specification](attention/04-over-specification.md) | Too many rules → model satisfies few reliably |
-| [Primacy / Recency Bias](attention/07-primacy-recency-bias.md) | First and last items in a list stick; middle items are forgotten |
-| [Context Bloat](attention/08-context-bloat.md) | Loading too much at once crowds out the instructions that matter |
+| [Over-Specification](attention/02-over-specification.md) | Too many rules → model satisfies few reliably |
+| [Primacy / Recency Bias](attention/03-primacy-recency-bias.md) | First and last items in a list stick; middle items are forgotten |
+| [Context Bloat](attention/04-context-bloat.md) | Loading too much at once crowds out the instructions that matter |
 
 ---
 
@@ -25,10 +25,10 @@ Keeping the model tethered to skill instructions as conversations evolve and pre
 
 | File | Problem |
 |------|---------|
-| [Negation Failure](grounding/02-negation-failure.md) | "Don't do X" is unreliable — positive framing works; negation doesn't |
-| [State Leakage](grounding/05-state-leakage.md) | Skill keeps influencing behavior after its task ends |
-| [Instruction Conflict](grounding/06-instruction-conflict.md) | Skill instructions clash with system prompt, CLAUDE.md, or user messages |
-| [Conversational Drift](grounding/13-conversational-drift.md) | Recent conversation gradually overrides skill instructions |
+| [Negation Failure](grounding/01-negation-failure.md) | "Don't do X" is unreliable — positive framing works; negation doesn't |
+| [State Leakage](grounding/02-state-leakage.md) | Skill keeps influencing behavior after its task ends |
+| [Instruction Conflict](grounding/03-instruction-conflict.md) | Skill instructions clash with system prompt, CLAUDE.md, or user messages |
+| [Conversational Drift](grounding/04-conversational-drift.md) | Recent conversation gradually overrides skill instructions |
 
 ---
 
@@ -38,9 +38,9 @@ Designing for the real world — where inputs are incomplete, platforms vary, an
 
 | File | Problem |
 |------|---------|
-| [Trigger Pollution](robustness/03-trigger-pollution.md) | Vague description causes skill to fire for unrelated requests |
-| [Happy-Path-Only Design](robustness/09-happy-path-only.md) | Skill only defines what to do when everything goes right |
-| [Platform Capability Assumption](robustness/10-platform-capability-assumption.md) | Skill assumes tools or features not available on all platforms |
+| [Trigger Pollution](robustness/01-trigger-pollution.md) | Vague description causes skill to fire for unrelated requests |
+| [Happy-Path-Only Design](robustness/02-happy-path-only.md) | Skill only defines what to do when everything goes right |
+| [Platform Capability Assumption](robustness/03-platform-capability-assumption.md) | Skill assumes tools or features not available on all platforms |
 
 ---
 
@@ -50,8 +50,8 @@ How skills behave as part of a larger system — with other skills, platforms, a
 
 | File | Problem |
 |------|---------|
-| [Skill Composition Blindness](composition/11-skill-composition-blindness.md) | Skill assumes it's the only active skill; breaks when others are loaded |
-| [Scope Creep](composition/12-scope-creep.md) | Skill grows beyond its original purpose and loses focus |
+| [Skill Composition Blindness](composition/01-skill-composition-blindness.md) | Skill assumes it's the only active skill; breaks when others are loaded |
+| [Scope Creep](composition/02-scope-creep.md) | Skill grows beyond its original purpose and loses focus |
 
 ---
 
