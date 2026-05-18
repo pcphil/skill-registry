@@ -30,6 +30,9 @@ Symlink a skill directory into `~/.agents/skills/` to make it available in Claud
 ```bash
 ln -s "$(pwd)/skill-name" ~/.agents/skills/skill-name
 ```
+or
+
+Copy the directory locally to the project
 
 ## Design Principles
 
