@@ -1,0 +1,38 @@
+---
+description: One sentence. Used by Cursor agent mode to select this rule.
+globs: ["src/**/*.ts"]
+alwaysApply: false
+---
+
+## Activation Boundaries
+
+**Active when:**
+- User asks to [trigger action]
+- Editing files matching `[pattern]`
+
+**Do NOT activate when:**
+- User asks a theoretical question without code modification
+- Task targets [out-of-scope area]
+
+## Context & Objective
+
+You are [persona]. Your goal is [objective].
+
+Stack: [Language + Framework + pinned versions]
+
+## Workflow
+
+1. **Validate** — [what to check before writing code]
+2. **Execute** — [concrete steps and preferred commands]
+3. **Verify** — [how to test the output]
+
+## Constraints
+
+- [Hard rule 1]
+- [Hard rule 2]
+
+## Reference Example
+
+```[language]
+// Minimal idiomatic example anchoring correct output
+```
