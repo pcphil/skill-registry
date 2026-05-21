@@ -36,13 +36,13 @@ Writing a recipe that calls for a convection oven — you assume everyone has on
 
 **Audit assumptions before publishing:**
 
-Before finalizing a skill, list every capability it depends on and verify each is available on the target platform(s):
+Before finalizing a skill, list every capability it depends on and verify each is available on the target platform(s). The matrix below is illustrative and may change as platforms evolve — verify current capabilities against each platform's documentation before relying on it:
 
 | Capability | Claude Code | OpenCode | Cursor | Copilot | Aider |
 |------------|-------------|----------|--------|---------|-------|
-| Persistent memory | Yes | Verify | No | No | No |
+| Persistent agent memory | Yes | Verify | Verify | No | No |
 | File read/write tools | Yes | Yes | Limited | Limited | Yes |
-| Slash commands | Yes | No | No | No | No |
+| Slash commands | Yes | Verify | Verify | No | Verify |
 | Structured question UI | Yes | No | No | No | No |
 
 **Use intent-based language for tools:**

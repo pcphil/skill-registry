@@ -23,7 +23,7 @@ A recipe written for a specific oven model: "Bake at 350°F for 22 minutes — t
 
 ## Symptoms
 
-- Skill works on Claude 3.x but breaks on Claude 4.x (different instruction-following defaults)
+- Skill works on one model version but breaks after a model update (different instruction-following defaults)
 - Skill references tool names that changed in a platform update
 - Skill relies on context window being "large enough" — breaks when run in a token-limited environment
 - Output format degrades after a model update; the old model reliably used a format the new one ignores

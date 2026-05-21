@@ -54,7 +54,14 @@ The model loads tier 2 only when it determines it needs the detail. It copies fr
 
 **Lines as a token proxy:**
 
-Line counts in this guide are proxies — the model processes tokens, not lines. Prose averages 15–20 tokens/line; code and markdown average 3–8 tokens/line. A 150-line SKILL.md is roughly 500–3,000 tokens depending on content mix. When in doubt, measure tokens directly.
+Line counts in this guide are proxies — the model processes tokens, not lines, and the ratio varies. Rough averages for typical SKILL.md content:
+
+- Prose: ~15–25 tokens/line
+- Code: ~5–15 tokens/line (highly variable by language)
+- Markdown structural lines (headers, short bullets): ~3–10 tokens/line
+- Typical mixed SKILL.md: ~8–15 tokens/line
+
+A 150-line SKILL.md of mixed content is roughly 1,000–2,500 tokens. For precision, measure tokens directly with a tokenizer rather than relying on line counts.
 
 **SKILL.md size targets:**
 
