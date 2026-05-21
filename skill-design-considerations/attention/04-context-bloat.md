@@ -52,15 +52,19 @@ Tier 3 — Not loaded into context (assets/): used by the model as templates to 
 
 The model loads tier 2 only when it determines it needs the detail. It copies from tier 3 without the template text entering context.
 
+**Lines as a token proxy:**
+
+Line counts in this guide are proxies — the model processes tokens, not lines. Prose averages 15–20 tokens/line; code and markdown average 3–8 tokens/line. A 150-line SKILL.md is roughly 500–3,000 tokens depending on content mix. When in doubt, measure tokens directly.
+
 **SKILL.md size targets:**
 
-| Type | Target size |
-|------|-------------|
-| Simple one-task skill | 30–80 lines |
-| Multi-step workflow skill | 80–150 lines |
-| Complex orchestrator skill | 150–250 lines (absolute max) |
+| Type | Target (lines) | Approximate tokens |
+|------|----------------|--------------------|
+| Simple one-task skill | 30–80 lines | ~300–800 tokens |
+| Multi-step workflow skill | 80–150 lines | ~800–2,000 tokens |
+| Complex orchestrator skill | 150–250 lines (absolute max) | ~2,000–4,000 tokens |
 
-If your SKILL.md exceeds 250 lines, content needs to move to references/.
+If your SKILL.md exceeds 250 lines (roughly 4,000 tokens), content needs to move to references/.
 
 **What belongs in SKILL.md vs references/:**
 
@@ -91,7 +95,7 @@ Load the example only if the user asks for one or the model determines it needs 
 
 Before publishing a skill, measure its loaded size. For Claude Code:
 - Check token count of SKILL.md + any always-loaded references
-- Target under 1,500 tokens for the always-loaded tier
+- Target under 1,500 tokens for the always-loaded tier (≈ 75–150 lines of mixed prose/code)
 - Verify that the skill + a typical user conversation fits comfortably within the context window
 
 ## Example
