@@ -8,7 +8,7 @@ Drift is different from instruction conflict (a specific clash between two instr
 
 ## Why it happens
 
-Recency bias means the most recent tokens in context have disproportionate influence on generation (see `07-primacy-recency-bias.md`). In a long conversation:
+Recency bias means the most recent tokens in context have disproportionate influence on generation (see `attention/03-primacy-recency-bias.md`). In a long conversation:
 
 - The skill's instructions were loaded at turn 1 and are now far from the generation point
 - The last 5 user messages shape the immediate context far more strongly than a skill loaded 20 turns ago
