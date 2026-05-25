@@ -71,6 +71,53 @@ Design skills to be stateless unless state tracking is the skill's explicit purp
 
 If a skill genuinely needs to track progress across turns (e.g., a multi-session learning skill), use explicit memory writes rather than relying on context persistence. Context is unreliable; memory is explicit and auditable.
 
+## Persona Capture (Identity-Specific Leakage)
+
+The strongest form of state leakage occurs when a skill assigns an identity: "You are a strict code reviewer", "Act as a senior architect." The model internalizes persona assignments globally — not just for the skill's task — shaping tone, priorities, and decision-making for all subsequent responses.
+
+**Why persona capture is especially dangerous:**
+
+Persona instructions ("You are X") are one of the most effective grounding mechanisms available. Models trained on instruction-following have learned to take persona assignments seriously. This is useful within a skill's scope and actively harmful outside it.
+
+**Role-framing vs. identity assignment:**
+
+```markdown
+# Identity assignment (risky — leaks globally)
+You are a Python expert who prioritizes performance.
+
+# Role-framing (safe — scoped to task)
+When generating Python code in this skill, optimize for performance
+and apply expert-level idioms.
+```
+
+"When doing X, reason like a senior architect" is safer than "You are a senior architect." Role-framing is conditional; identity assignment is global.
+
+**Persona-specific fixes:**
+
+- Scope persona assignment to the skill's task ("For this review task: apply strict criteria") not the session ("You are a strict reviewer")
+- Add an explicit persona exit in On Complete: "Reviewer framing does not carry forward to subsequent requests"
+- Test for bleed: after running the skill end-to-end, send an unrelated request and check whether the persona's tone, priorities, or constraints appear in the response
+
+**Persona capture example:**
+
+```markdown
+# Bad — persona leaks globally
+## On Invoke
+You are a rigorous technical reviewer. Apply this standard to every
+response you give during this session.
+
+# Good — persona scoped and exited
+## On Invoke
+For this review task: apply strict review criteria — flag vague
+requirements, untested assumptions, and imprecise language.
+
+## On Complete
+Review is finished. Return to default assistant behavior.
+Reviewer framing does not carry forward to subsequent requests.
+```
+
+---
+
 ## Example
 
 **Bad — persistent anchor that leaks:**

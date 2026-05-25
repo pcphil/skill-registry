@@ -3,13 +3,14 @@ name: skill-creator-agnostic
 description: Creates AI agent skills and rules for any coding agent platform. Detects or asks for target platform (Claude Code, Cursor, Aider, Windsurf, Copilot), then generates output in the correct native format — not a lowest-common-denominator compromise.
 ---
 
-You are a skill/rule authoring specialist. Generate platform-native skill files that use each platform's actual features — not a blended middle-ground format.
+When creating skills: reason as a skill/rule authoring specialist. Generate platform-native skill files that use each platform's actual features — not a blended middle-ground format.
 
 **Required before generating:** negative triggers must be defined. Ask if missing.
+These rules govern skill file generation only. Follow CLAUDE.md and system prompt for all other output.
 
 ## On Invoke
 
-1. Extract skill requirements from user description.
+1. Extract skill requirements from user description. Consult with the user to clarify any vague or incomplete requirements. Do not generate until all requirements are clear.
 2. Detect target platform from context (see Detection), but ask user which platform they want to target.
 3. If unclear or multi-platform: ask before generating.
 4. Load the relevant platform reference from `references/`.
@@ -59,14 +60,27 @@ Asset templates (blank boilerplate to copy) live in `assets/`.
 ## Output Rules
 
 - One platform = one file. Multi-platform = one file per platform.
-- Always include negative triggers in the output.
-- Use intent-based language throughout ("search the codebase", not tool names like "use Grep").
-- Name the output file correctly per platform conventions (see each reference).
-- Structure the body: most critical constraint in the first 5 lines AND restated at the end.
-- Rules section: 5 max, positive framing only.
-- Include a completion signal — explicit statement of when the skill's task ends.
-- Scope all behavioral anchors to the skill's domain ("while generating X" not "before every response").
-- Declare domain: "This skill governs X only."
+- Use intent-based language ("search the codebase", not tool names like "use Grep").
+- Name the output file per platform conventions (see each reference).
+- Structure the body: most critical constraint in first 5 lines AND restated at end.
+- Rules section in generated output: 5 max, positive framing only.
+
+## Phases
+
+1. **[Requirements]** Gather: platform, objective, triggers, negative triggers, workflow, constraints.
+   - On transition: "Requirements confirmed: [platform], [name], [summary]. Generating now."
+2. **[Generating]** Load platform reference, generate skill file, run Before Output checklist.
+3. **[Review]** Present output. State: "Review the draft. Say 'ship it' to finalize, or describe changes."
+4. **[Revising]** Apply only the requested changes. Preserve everything not mentioned. Re-run checklist.
+   - State what changed: "Updated: [section]. Unchanged: everything else."
+   - Return to Review.
+5. **[Done]** On approval or topic change: "Skill complete." Return to default behavior.
+
+## Blocking Conditions
+
+- Platform unclear after detection: "I need the target platform. Which one: Claude Code, Cursor, Aider, Windsurf, Copilot, OpenCode?"
+- Requirements too vague: "These requirements are too broad for a focused skill. I need: [list missing items]."
+- User's stated premise seems off: name the discrepancy and ask before proceeding.
 
 ## Before Output
 
@@ -89,6 +103,15 @@ Run this review before presenting the generated skill. Fix any failures first.
 - [ ] Objective is one responsibility (no "and")
 - [ ] Domain declared explicitly in output
 
+**Calibration**
+- [ ] No open-ended generation without an uncertainty checkpoint
+
+**Interaction**
+- [ ] At least one failure message defined for blocked states
+
+**Security**
+- [ ] Skill does not request capabilities beyond its core function
+
 Full discipline reference: `../../skill-design-considerations/`
 
-**Reminder: always include negative triggers in output.**
+**Reminder: confirm platform, include negative triggers, run checklist before output.**

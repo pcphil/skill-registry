@@ -10,17 +10,25 @@ A personalized skill registry for coding agents — reusable agent skills design
 | `skill-creator-agnostic` | Generates skill and rule files for any coding agent platform in the correct native format |
 | `learn-react` | Guided React + Vite learning assistant — teaches by doing with real project goals and code review |
 | `learn-typescript` | Adaptive TypeScript tutor that teaches through explanations, examples, and hands-on exercises |
+| `learn-python` | Python learning skill |
+| `sdet-test-auditor` | Audits test suites for quality and coverage gaps |
+| `sdet-test-builder` | Generates test scaffolding and test cases |
 
 ## Design Considerations
 
-`skill-design-considerations/` is a field guide to the failure modes that break agent skills. Organized into four disciplines:
+`skill-design-considerations/` is a field guide to the failure modes that break agent skills. Organized into 9 categories:
 
 - **Attention** — how models allocate focus and why critical instructions get ignored
 - **Grounding** — keeping the model tethered to skill instructions as conversations evolve
 - **Robustness** — designing for incomplete inputs, platform variance, and edge cases
 - **Composition** — how skills behave alongside other skills and grow over time
+- **Anatomy** — structural and architectural failure modes in how a skill file is assembled
+- **Calibration** — how skill instructions shape model confidence and uncertainty
+- **Interaction** — the UX contract between skill and user
+- **Security** — handling untrusted data and elevated capabilities
+- **Principles** — positive design guidance for what good skill design looks like
 
-13 failure modes in total, each with an analogy, symptoms, fix, and before/after example.
+39 considerations in total, each with an analogy, symptoms, fix, and before/after example.
 
 ## Installation
 

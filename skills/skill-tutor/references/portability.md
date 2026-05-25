@@ -51,17 +51,19 @@ Understanding what each platform offers helps you identify the universal core.
 
 | Platform | Instruction Format | Trigger Mechanism | Tool Access | Context Model |
 |----------|-------------------|-------------------|-------------|---------------|
-| Claude Code | SKILL.md (markdown + frontmatter) | Description matching + slash commands | Named tools (Read, Edit, Bash, etc.) | Progressive disclosure (3 levels) |
-| Cursor | .cursorrules (markdown) | Always loaded or @-referenced | Built-in (file ops, terminal) | Single file, always in context |
-| Windsurf | .windsurfrules (markdown) | Always loaded | Built-in (Cascade tools) | Single file, always in context |
-| Copilot | .github/copilot-instructions.md | Always loaded + custom agents | Limited (code generation focus) | Varies by mode |
-| Custom SDK | System prompt (string) | Programmatic | Developer-defined | Developer-controlled |
+| Claude Code | SKILL.md (markdown + YAML frontmatter) | Description matching + slash commands | Named tools (Read, Edit, Bash, etc.) | Progressive disclosure (3 levels) |
+| Cursor | `.cursor/rules/*.mdc` (MDC with frontmatter) | `globs` auto-attach + `alwaysApply` | Built-in (file ops, terminal) | Per-rule, loaded by file match or always |
+| Windsurf | `.windsurfrules` (plain markdown) | Always loaded | Built-in (Cascade tools) | Single file, always in context |
+| Copilot | `.github/copilot-instructions.md` | Always loaded | Limited (suggestion-based) | Competes with open files for context |
+| Aider | `CONVENTIONS.md` + `.aider.conf.yml` refs | Always loaded | Built-in (file ops, git) | All listed files loaded every session |
+| OpenCode | SKILL.md (same as Claude Code) | Description matching | Platform tools (names differ) | Progressive disclosure |
 
 **Key differences:**
-- **Trigger**: Claude Code has sophisticated trigger matching; others are mostly "always on"
-- **Progressive disclosure**: Only Claude Code has the 3-level loading system
-- **Tool naming**: Every platform names its tools differently
-- **Scope**: Cursor/Windsurf rules are project-wide; Claude Code skills can be cross-project
+- **Trigger**: Claude Code and OpenCode have description-based trigger matching; Cursor uses globs/alwaysApply; others are "always on"
+- **Progressive disclosure**: Only Claude Code and OpenCode have the 3-level loading system (SKILL.md → references/ → assets/)
+- **Tool naming**: Every platform names its tools differently — use intent-based language for portability
+- **Scope**: Cursor rules can be scoped to file patterns via `globs`; Claude Code skills can be cross-project; others are project-wide
+- **Template variables**: Only Cursor has `{{REPO_ROOT}}`, `{{CURRENT_FILE}}`, `{{SELECTION}}` — these are not universal
 
 **Key similarities:**
 - All read markdown instructions
@@ -154,22 +156,24 @@ Same brain, different packaging.
 
 Here's a translation table for porting skills:
 
-| Claude Code | Cursor | Windsurf | Copilot | Universal Term |
-|-------------|--------|----------|---------|----------------|
-| SKILL.md | .cursorrules | .windsurfrules | copilot-instructions.md | Instruction file |
-| `name` frontmatter | (N/A — always loaded) | (N/A) | Agent name | Identity |
-| `description` frontmatter | (N/A) | (N/A) | Agent description | Trigger text |
-| references/ | @-file references | (inline) | (inline) | Extended knowledge |
-| scripts/ | (terminal commands) | (terminal) | (limited) | Deterministic actions |
-| Progressive disclosure | (not available) | (not available) | (not available) | Context management |
-| Memory system | (not available) | (not available) | (not available) | State persistence |
+| Claude Code | Cursor | Windsurf | Copilot | Aider | OpenCode | Universal Term |
+|-------------|--------|----------|---------|-------|---------|----------------|
+| SKILL.md | `.cursor/rules/*.mdc` | `.windsurfrules` | `copilot-instructions.md` | `CONVENTIONS.md` | SKILL.md | Instruction file |
+| `name` frontmatter | (N/A) | (N/A) | (N/A) | (N/A) | `name` frontmatter | Identity |
+| `description` frontmatter | `description` frontmatter | (N/A) | (N/A) | (N/A) | `description` frontmatter | Trigger text |
+| `globs`: N/A | `globs` in frontmatter | N/A | N/A | N/A | N/A | File-scoped activation |
+| references/ | @-file references | (inline) | (inline) | `.aider.conf.yml` refs | references/ | Extended knowledge |
+| scripts/ | (terminal) | (terminal) | (limited) | (terminal) | scripts/ | Deterministic actions |
+| Progressive disclosure | (not available) | (not available) | (not available) | (not available) | Progressive disclosure | Context management |
+| Memory system | (not available) | (not available) | (not available) | (not available) | Verify availability | State persistence |
 
 **Handling missing capabilities:**
 
 When porting to a platform that lacks a feature:
-- **No progressive disclosure** → Keep instructions concise; inline the most critical references
-- **No trigger matching** → The skill is always active; add "When to activate" section so the agent self-filters
-- **No memory** → Rely on file-based state or accept statelessness
+- **No progressive disclosure** (Cursor, Windsurf, Copilot, Aider) → Keep instructions concise; inline the most critical content
+- **No trigger matching** (Windsurf, Copilot, Aider) → The skill is always active; add "When to activate" section so the agent self-filters
+- **No template variables** (Claude Code, Windsurf, Copilot, Aider, OpenCode) → Use relative paths or intent-based references instead of `{{REPO_ROOT}}`
+- **No memory** (all except Claude Code) → Rely on file-based state or accept statelessness
 - **Limited tools** → Express intent and let the agent use what it has
 
 ---

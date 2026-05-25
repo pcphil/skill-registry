@@ -16,9 +16,9 @@ Modern agent setups layer instructions from multiple sources:
 - User's live message
 
 All of these land in the context window simultaneously. The model has no explicit conflict resolution protocol — it uses attention and recency as implicit tiebreakers. Generally:
-- More recent instructions tend to win (recency bias)
-- Instructions in the user turn tend to win over system prompt instructions
-- Stronger language ("always", "never", "you must") can override weaker language
+- More recent instructions tend to win over earlier instructions at the same level (recency bias)
+- System prompt instructions generally outweigh user messages by design, but strong user-turn phrasing can sometimes displace skill-level or CLAUDE.md instructions
+- Stronger language ("always", "never", "you must") can override weaker language at the same precedence level
 
 But this is not reliable. The model may try to satisfy both instructions partially, producing output that fully satisfies neither.
 
