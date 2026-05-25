@@ -69,17 +69,19 @@ A living reference of skill design patterns. Each pattern addresses a recurring 
 
 ---
 
-## Pattern: Context Variables
+## Pattern: Relative Path References
 
-**Problem:** Hardcoded paths break across machines, repos, and platforms. Skills that say `/Users/john/project/src` are useless to anyone else.
+**Problem:** Hardcoded absolute paths break across machines, repos, and platforms. Skills that say `/Users/john/project/src` are useless to anyone else.
 
-**Solution:** Use placeholder variables that resolve at runtime: `{{REPO_ROOT}}`, `{{CURRENT_FILE}}`, `{{BRANCH}}`. The agent or platform substitutes actual values.
+**Solution:** Use relative paths or intent-based references. Some platforms have template variables (`{{REPO_ROOT}}` in Cursor), but these are platform-specific — not universal. The most portable approach is relative paths from the project root, or intent-based references that let the agent resolve the path.
 
 **Example:**
 - Hardcoded: "Check the file at /home/dev/myapp/src/config.ts"
-- Variable: "Check `{{REPO_ROOT}}/src/config.ts` for the current configuration"
+- Relative: "Check `src/config.ts` for the current configuration"
+- Intent-based: "Find and read the project's main configuration file"
+- Cursor-specific: "Check `{{REPO_ROOT}}/src/config.ts`" (only works in Cursor)
 
-**Portability:** Medium-High — Claude Code resolves these from context. Cursor/Windsurf have equivalent workspace variables. For platforms without native support, the agent infers from cwd.
+**Portability:** Relative paths work everywhere. Template variables (`{{REPO_ROOT}}`, `{{CURRENT_FILE}}`) are Cursor-specific — use them in Cursor rules, not in portable skills.
 
 ---
 

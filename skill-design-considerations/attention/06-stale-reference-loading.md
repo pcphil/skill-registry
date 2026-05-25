@@ -34,7 +34,7 @@ A GPS that loaded the correct map tile when you started your trip but never upda
 
 Don't just list available references — state which reference applies to which step:
 
-```markdown
+```markdown0
 ## Workflow
 1. Gather requirements — no reference needed
 2. Detect platform → load `references/<detected-platform>.md`

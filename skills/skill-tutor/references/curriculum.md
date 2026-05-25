@@ -13,22 +13,23 @@
 
 1.2 **The Agent Interface Landscape**
 - Common interfaces: system prompts, tool declarations, context injection, file-based rules
-- Claude Code: SKILL.md + references + scripts
-- Cursor: .cursorrules, context files
-- Windsurf: .windsurfrules, workflows
-- Copilot: instructions files, custom agents
-- Aider: conventions files, repo maps
+- Claude Code: SKILL.md + references/ + scripts/ + assets/
+- Cursor: `.cursor/rules/*.mdc` (MDC format with frontmatter) or legacy `.cursorrules`
+- Windsurf: `.windsurfrules` (plain markdown, always loaded)
+- Copilot: `.github/copilot-instructions.md` (always loaded, no trigger matching)
+- Aider: `CONVENTIONS.md` + files listed in `.aider.conf.yml`
+- OpenCode: SKILL.md (same structure as Claude Code, different discovery paths)
 - What they share vs. where they diverge
 
 1.3 **Universal Core, Platform Wrapper**
 - Pattern: write the "brain" once, wrap it per platform
-- What belongs in the universal core (intent, logic, examples)
-- What belongs in the wrapper (trigger syntax, tool names, file paths)
+- What belongs in the universal core (intent, logic, criteria, examples)
+- What belongs in the wrapper (trigger syntax, file format, tool references, platform-specific features)
 - Example: a code review skill expressed for 3 platforms
 
 1.4 **Mapping Between Platforms**
-- Translation table: Claude Code concepts → equivalents elsewhere
-- Handling capabilities that don't exist on all platforms
+- Translation table: Claude Code concepts → equivalents on each platform
+- Handling capabilities that don't exist on all platforms (progressive disclosure, memory, trigger matching)
 - Graceful degradation vs. platform-specific branches
 
 1.5 **Anti-Patterns**
@@ -42,56 +43,60 @@ Take an existing Claude Code skill and extract its universal core. Write a 1-par
 
 ---
 
-## Module 2: The Universal Poly-Agent Layout
+## Module 2: Platform-Native Formats
 
-**Goal:** Master the standard skill structure that works across all coding agents.
+**Goal:** Master the correct file format, structure, and capabilities for each platform.
 
 ### Lessons
 
-2.1 **Frontmatter: name, description, globs, tags**
-- `name`: snake_case, machine-readable identifier
-- `description`: 1-2 sentences rich in keywords for system parsers and semantic search
-- `globs`: file patterns for IDE auto-indexing (e.g., `src/**/*.ts`)
-- `tags`: categorical labels for discovery
-- Why description is the most important line (drives trigger matching AND vector search)
+2.1 **Claude Code: SKILL.md**
+- Frontmatter: `name` and `description` only (no `globs`, `tags`, or other fields)
+- Description drives trigger matching — write it as a discrimination signal
+- Directory layout: SKILL.md + references/ + scripts/ + assets/
+- Progressive disclosure: always-loaded (SKILL.md) → on-demand (references/) → copy-only (assets/)
+- Memory system for state persistence across sessions
+- Named tools (Read, Grep, Glob, Edit, Write, Bash)
 
-2.2 **Activation Boundaries**
-- Positive triggers: "Active when the user asks to...", "When modifying files matching..."
-- Negative triggers: explicit "DO NOT activate when" rules
-- Why negative triggers matter: saves tokens, prevents false activations
-- The difference between trigger descriptions (metadata) and self-filtering (body)
+2.2 **Cursor: MDC Rules**
+- File location: `.cursor/rules/skill-name.mdc`
+- Frontmatter: `description`, `globs` (file patterns for auto-attach), `alwaysApply`
+- Context variables: `{{REPO_ROOT}}`, `{{CURRENT_FILE}}`, `{{SELECTION}}`
+- Body structure: Activation Boundaries → Context & Objective → Workflow → Constraints
+- Legacy format: `.cursorrules` (plain markdown, no frontmatter)
 
-2.3 **Context Variables**
-- `{{REPO_ROOT}}` — absolute project path without hardcoding
-- `{{CURRENT_FILE}}` — active file scope for analysis
-- Why variables beat hardcoded paths (portability across machines AND agents)
-- When to use vs. when to let the agent resolve paths itself
+2.3 **Windsurf: .windsurfrules**
+- Plain markdown, no frontmatter, no context variables
+- Always loaded for every session — keep concise (<150 lines)
+- Cascade hierarchy: global user rules → project rules → in-chat instructions
+- Structure: Role → Stack → Workflow → Always/Never → Out of Scope
 
-2.4 **Execution Goals & Persona**
-- Define the high-level objective and professional standard
-- One paragraph: who you are, what you do, what standard you maintain
-- Scoping: what's in bounds vs. what this skill doesn't handle
+2.4 **Copilot: Instructions File**
+- File: `.github/copilot-instructions.md`
+- Always loaded, no activation boundaries, no trigger matching
+- Suggestion-based, not agentic — no multi-step workflows
+- Focus on conventions, patterns, and constraints
+- Keep under 100 lines (competes with open files for context)
 
-2.5 **Step-by-Step Workflow (Validate → Execute → Verify)**
-- Validation: what must the agent check before acting?
-- Execution: concrete steps, preferred commands, design patterns
-- Verification: how the agent tests its own output
-- Why the verification step prevents drift and hallucination
+2.5 **Aider: Conventions**
+- File: `CONVENTIONS.md` in project root, or files listed in `.aider.conf.yml`
+- Plain markdown, no frontmatter, loaded every session
+- Write for a developer scanning quickly, not an agent parsing steps
+- Deep git integration — include commit conventions
+- Keep under 200 lines
 
-2.6 **Strict Constraints & Anti-Patterns**
-- The critical guardrail: the single most important rule
-- Version locks, forbidden syntax, performance boundaries
-- Architectural patterns to avoid
-- How constraints differ from instructions (hard walls vs. preferences)
+2.6 **OpenCode: SKILL.md**
+- Nearly identical to Claude Code format (same directory structure)
+- Extra optional frontmatter: `license`, `compatibility`, `metadata`
+- Permission system: `allow`/`deny`/`ask` in `opencode.json`
+- Use intent-based language (tool names differ from Claude Code)
 
-2.7 **Reference Boilerplate**
-- Minimal code examples to anchor the agent's output format
-- JSON schemas for deterministic structured output
-- Why boilerplate prevents syntax hallucination
-- When to inline vs. move to references/
+2.7 **What's Truly Universal vs. Platform-Specific**
+- Universal: name/identifier, description/purpose, workflow steps, constraints, boundaries
+- Platform-specific: `globs` (Cursor), `alwaysApply` (Cursor), context variables (Cursor), memory system (Claude Code), progressive disclosure (Claude Code/OpenCode), permission system (OpenCode)
+- When to use platform-specific features vs. when to stay portable
 
 ### Exercise
-Create a skill using the full Universal Poly-Agent Layout. Include all 7 sections. Subject: anything you're currently working on.
+Create a skill for a platform you use. Then describe what would change to port it to a second platform.
 
 ---
 
@@ -102,8 +107,8 @@ Create a skill using the full Universal Poly-Agent Layout. Include all 7 section
 ### Lessons
 
 3.1 **Imperative vs. Descriptive Instructions**
-3.2 **Scoping Behavior — What Not to Do**
-3.3 **Examples as Specification**
+3.2 **Positive Framing — Why "Do X" Beats "Don't Y"**
+3.3 **Examples as Specification (and the Anchoring Risk)**
 3.4 **Handling Ambiguity and Edge Cases**
 3.5 **Voice and Tone Calibration**
 
@@ -111,32 +116,59 @@ Create a skill using the full Universal Poly-Agent Layout. Include all 7 section
 
 ## Module 4: Tool & Resource Design
 
-**Goal:** Know when and how to use scripts, references, assets, and context variables effectively.
+**Goal:** Know when and how to use scripts, references, assets, and progressive disclosure effectively.
 
 ### Lessons
 
 4.1 **Scripts: Deterministic Reliability**
+- When to use scripts vs. instructions
+- Naming and location conventions
+
 4.2 **References: On-Demand Knowledge**
+- When to create references, naming conventions, progressive disclosure
+- Structural archetypes: teaching, generator, utility
+- Full reference: `references/anatomy.md`
+
 4.3 **Assets: Templates and Boilerplate**
+- When to use assets vs. references
+- Template design for copy-and-modify workflows
+
 4.4 **Context Budget Management**
-4.5 **Context Variables in Practice**
-- Defining project-specific variables
-- Platform-agnostic path resolution
-- Combining variables with globs for targeted activation
+- Platform size targets, SKILL.md vs. references allocation
+- Decision framework for structural patterns (phases, modes, subcommands, state)
+- Full reference: `references/decisions.md`
+
+4.5 **Platform-Specific Features in Practice**
+- Claude Code: progressive disclosure, memory, named tools
+- Cursor: globs for auto-attach, context variables, alwaysApply
+- When these features are worth using vs. when they harm portability
 
 ---
 
-## Module 5: Testing & Iteration
+## Module 5: Skill Design Considerations
 
-**Goal:** Validate that skills work as intended and improve over time.
+**Goal:** Recognize and prevent the failure modes that break skills in production.
 
 ### Lessons
 
-5.1 **Manual Testing Strategies**
-5.2 **Edge Case Discovery**
-5.3 **The Self-Verification Pattern**
-- Building verification into the skill's workflow
-- What "the agent tests its own work" looks like in practice
-- Choosing verification commands (test suites, linters, type checks)
-5.4 **Iteration Loops: Feedback → Revision**
-5.5 **Versioning and Breaking Changes**
+5.1 **Attention Failures**
+- Lost in the middle, over-specification, context bloat
+- How to structure instructions for reliable attention
+
+5.2 **Grounding Failures**
+- Negation failure, state leakage, conversational drift, persona capture
+- Building termination signals and scoped behavior
+
+5.3 **Robustness and Composition**
+- Trigger pollution, happy-path-only, platform assumptions
+- Skill composition, scope creep, priority inversion
+
+5.4 **Calibration and Interaction**
+- Overconfidence, hallucination amplification, example anchoring
+- Silent failure, mode opacity, feedback loops
+
+5.5 **Adversarial Testing**
+- Testing with missing input, wrong input type, out-of-scope requests
+- Pre-ship checklist for skill quality
+
+Full taxonomy: `../../skill-design-considerations/`
