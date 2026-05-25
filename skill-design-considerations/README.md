@@ -12,12 +12,11 @@ How models allocate focus. Critical instructions get ignored not because they're
 
 | File | Problem |
 |------|---------|
-| [Lost in the Middle](attention/01-lost-in-the-middle.md) | Rules buried mid-file get less attention than rules at the edges |
+| [Lost in the Middle](attention/01-lost-in-the-middle.md) | Rules buried mid-file or mid-list get less attention than rules at the edges |
 | [Over-Specification](attention/02-over-specification.md) | Too many rules → model satisfies few reliably |
-| [Primacy / Recency Bias](attention/03-primacy-recency-bias.md) | First and last items in a list stick; middle items are forgotten |
-| [Context Bloat](attention/04-context-bloat.md) | Loading too much at once crowds out the instructions that matter |
-| [Instruction Hierarchy Blindness](attention/05-instruction-hierarchy-blindness.md) | Skill doesn't account for precedence: system prompt > CLAUDE.md > skill > user |
-| [Stale Reference Loading](attention/06-stale-reference-loading.md) | Multi-phase skill loads wrong or outdated reference for the current step |
+| [Context Bloat](attention/03-context-bloat.md) | Loading too much at once crowds out the instructions that matter |
+| [Instruction Hierarchy Blindness](attention/04-instruction-hierarchy-blindness.md) | Skill doesn't account for precedence: system prompt > CLAUDE.md > skill > user |
+| [Stale Reference Loading](attention/05-stale-reference-loading.md) | Multi-phase skill loads wrong or outdated reference for the current step |
 
 ---
 
@@ -28,11 +27,10 @@ Keeping the model tethered to skill instructions as conversations evolve and pre
 | File | Problem |
 |------|---------|
 | [Negation Failure](grounding/01-negation-failure.md) | "Don't do X" is unreliable — positive framing works; negation doesn't |
-| [State Leakage](grounding/02-state-leakage.md) | Skill keeps influencing behavior after its task ends |
+| [State Leakage](grounding/02-state-leakage.md) | Skill keeps influencing behavior after its task ends — including persona capture |
 | [Instruction Conflict](grounding/03-instruction-conflict.md) | Skill instructions clash with system prompt, CLAUDE.md, or user messages |
 | [Conversational Drift](grounding/04-conversational-drift.md) | Recent conversation gradually overrides skill instructions |
-| [Persona Capture](grounding/05-persona-capture.md) | Skill persona leaks into non-skill behavior across the session |
-| [Termination Ambiguity](grounding/06-termination-ambiguity.md) | No clear "done" signal; model stays partially in skill mode |
+| [Termination Ambiguity](grounding/05-termination-ambiguity.md) | No clear "done" signal; model stays partially in skill mode |
 
 ---
 
@@ -59,6 +57,20 @@ How skills behave as part of a larger system — with other skills, platforms, a
 | [Skill Composition Blindness](composition/01-skill-composition-blindness.md) | Skill assumes it's the only active skill; breaks when others are loaded |
 | [Scope Creep](composition/02-scope-creep.md) | Skill grows beyond its original purpose and loses focus |
 | [Priority Inversion](composition/03-priority-inversion.md) | Lower-priority skill wins due to recency/proximity when two skills are active |
+
+---
+
+## Anatomy
+
+Structural and architectural failure modes — what goes wrong when the skeleton of a skill is wrong, independent of content quality.
+
+| File | Problem |
+|------|---------|
+| [Section Role Confusion](anatomy/01-section-role-confusion.md) | Content placed in the wrong section gets processed through the wrong cognitive lens |
+| [Archetype Mismatch](anatomy/02-archetype-mismatch.md) | Skill uses the structural pattern of the wrong archetype for its purpose |
+| [Missing On Invoke Contract](anatomy/03-missing-on-invoke-contract.md) | No initialization logic; model improvises entry differently each time |
+| [Monolithic Workflow](anatomy/04-monolithic-workflow.md) | Flat undifferentiated steps where phases with different behaviors are needed |
+| [Phantom Reference Architecture](anatomy/05-phantom-reference-architecture.md) | SKILL.md references files that don't exist or don't match expectations |
 
 ---
 

@@ -8,7 +8,7 @@ This is distinct from skill composition blindness (composition/01), which covers
 
 ## Why it happens
 
-Models weight recent context more heavily than distant context (see primacy/recency bias, attention/03). In a loaded skill environment, the skill that was loaded last, or whose instructions are positioned closest to the user's message, has the highest effective weight at inference time.
+Models weight recent context more heavily than distant context (see lost-in-the-middle, attention/01). In a loaded skill environment, the skill that was loaded last, or whose instructions are positioned closest to the user's message, has the highest effective weight at inference time.
 
 This creates an accidental priority system based on load order — which has nothing to do with which skill is actually responsible for the current request. A debug-helper skill loaded after a code-generation skill will dominate code generation tasks simply because it appeared later in the context.
 

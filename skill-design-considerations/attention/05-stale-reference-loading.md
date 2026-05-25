@@ -4,7 +4,7 @@
 
 Skills that use progressive disclosure — splitting content into `references/` files loaded on demand — can load the wrong reference for the current step, or continue using a reference that was relevant earlier in the conversation but no longer applies. The model loaded `references/phase-1.md` at the start of the task and never re-evaluated; by step 4, the user is in phase 2 and the loaded content is stale.
 
-Context bloat (attention/04) explains *why* to split content into references. This consideration addresses what goes wrong *after* splitting: the model has no signal for when to reload, invalidate, or switch references.
+Context bloat (attention/03) explains *why* to split content into references. This consideration addresses what goes wrong *after* splitting: the model has no signal for when to reload, invalidate, or switch references.
 
 ## Why it happens
 

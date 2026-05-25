@@ -18,17 +18,41 @@ Likely causes:
 - Positional encoding interacts with attention in ways that favor endpoints
 - RLHF and instruction tuning reinforce following instructions in familiar positions (beginning of system prompt, beginning of user turn)
 
+## List-Level Effects (Primacy-Recency Bias)
+
+The same U-shaped attention curve operates at micro-scale within individual lists:
+
+**Primacy bias** — the first item in a list is processed when the model's attention is fully available and the context is least cluttered. It anchors how the rest of the list is interpreted.
+
+**Recency bias** — the last item is closest to the point of generation. It's the most recently "seen" instruction and most likely to influence the immediately following output.
+
+Items 2 through N-1 in a list compete with each other in the attention-poor middle zone. Both effects are amplified by training data patterns: instructions tend to state the most important thing first (human writing convention), so models learn to weight early items more heavily.
+
+This means for any list of rules, workflow steps, or requirements:
+- 3-item lists have no middle zone
+- 5-item lists have a small one
+- 10-item lists have a large dead zone where items are unreliably followed
+
 ## Analogy
 
-Think of a keynote speech. The audience remembers the speaker's opening joke and their closing call-to-action. The eight bullet points in the middle? Gone by the next morning. Your SKILL.md is that speech — the crowd (the model) was present for all of it, but only the edges survived. Write accordingly.
+Think of a keynote speech. The audience remembers the speaker's opening joke and their closing call-to-action. The eight bullet points in the middle? Gone by the next morning. Your SKILL.md is that speech — the crowd (the model) was present for all of it, but only the edges survived.
+
+Same for a grocery list: you remember milk (first thing written, before the list got long) and eggs (added five minutes ago). The six items in the middle? You're standing in the store trying to recall them. Instruction lists work the same way at every scale.
 
 ## Symptoms
 
+**Document-level:**
 - Model follows rules stated at the top of SKILL.md but ignores rules halfway down
 - A constraint mentioned only once in the middle of a long skill body gets violated
 - Skill works correctly on short conversations, breaks on long ones (middle content pushed further from edges as context grows)
 - Model completes the wrong step in a multi-step workflow when the correct step was listed in the middle
 - User corrects the model for ignoring something "clearly stated" — and it was in the middle of the file
+
+**List-level:**
+- Rule #1 and rule #8 in a list are followed; rules #3–#6 are frequently violated
+- The last step in a workflow is executed correctly; middle steps are skipped or reordered
+- Adding a rule at the end of a list temporarily "fixes" a compliance issue; adding it in the middle doesn't
+- Multi-item instructions produce outputs that match the first and last items but miss middle requirements
 
 ## Fix
 
@@ -47,6 +71,24 @@ Think of a keynote speech. The audience remembers the speaker's opening joke and
 - Use section headers to create visual anchors. Models attend to headers even in middle content.
 - Bold critical constraints: `**Never generate output without user confirmation.**`
 - For multi-step workflows, number steps and keep each step's instruction on one line.
+
+**List-level fixes:**
+- Structure lists with primacy and recency in mind: item 1 = most critical constraint; items 2 to N-1 = supporting details; item N = second most critical, or restatement of item 1.
+- Target 3–5 items per list. If you need more, split into separate sections — each section's first and last items get full attention.
+- Use section headers to create multiple "edges" that reset the primacy/recency dynamic:
+
+```markdown
+## Step 1: Requirements
+1. Extract objective (primacy — gets full attention)
+2. Identify triggers
+3. Confirm negative triggers (recency — gets good attention)
+
+## Step 2: Platform
+1. Detect from context (primacy)
+2. Ask if ambiguous (recency)
+```
+
+6 instructions split across 2 sections, each with its own primacy/recency pair. Much more reliable than a flat list of 6.
 
 ## Example
 
@@ -91,3 +133,30 @@ Check the user's goal. Confirm negative triggers exist before proceeding.
 ```
 
 Same constraint appears at top, embedded in the workflow step, and restated at the end.
+
+**Bad — critical constraint in the middle of a rule list:**
+
+```markdown
+## Rules
+1. Use kebab-case for file names
+2. Keep SKILL.md under 500 lines
+3. Always include negative triggers — this is the most important rule
+4. Use intent-based language
+5. One file per platform
+```
+
+Rule 3 ("most important rule") is in position 3 of 5. It's in the middle zone. It will be violated more than rules 1 and 5.
+
+**Good — critical constraint at list edges:**
+
+```markdown
+## Rules
+1. Always include negative triggers in every generated skill
+2. Keep SKILL.md under 500 lines; move excess to references/
+3. Use intent-based language ("search the codebase", not tool names)
+4. One file per platform; use correct file names per platform conventions
+
+**Required in all outputs: negative triggers must be defined.**
+```
+
+Most important rule first. Restated as bold reminder at end. Middle rules are important but survivable if occasionally missed.

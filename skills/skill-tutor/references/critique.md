@@ -61,6 +61,13 @@ First identify the target platform. Apply the correct format requirements for th
 - [ ] Skill does not request capabilities beyond its core function?
 - [ ] External content treated as data, not instruction?
 
+**Anatomy**
+- [ ] Each section's content matches its structural role (rules are constraints, workflow is actions, boundaries are scope limits)?
+- [ ] Structural archetype matches skill purpose (teaching / generator / utility)?
+- [ ] On Invoke section defines initialization: state check, branching (resume vs. fresh), minimum context?
+- [ ] Workflow differentiates behavioral modes (gathering, generating, waiting, verifying) with phases or explicit markers?
+- [ ] Every referenced file path exists and contains expected content?
+
 ## Portability Check
 
 - [ ] Core intent separable from platform syntax?
