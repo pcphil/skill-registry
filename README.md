@@ -10,6 +10,7 @@ A personalized skill registry for coding agents — reusable agent skills design
 | `skill-creator-agnostic` | Generates skill and rule files for any coding agent platform in the correct native format |
 | `learn-react` | Guided React + Vite learning assistant — teaches by doing with real project goals and code review |
 | `learn-typescript` | Adaptive TypeScript tutor that teaches through explanations, examples, and hands-on exercises |
+| `learn-nextjs` | Guided Next.js App Router + TypeScript learning assistant — builds on learn-react foundations |
 | `learn-python` | Python learning skill |
 | `sdet-test-auditor` | Audits test suites for quality and coverage gaps |
 | `sdet-test-builder` | Generates test scaffolding and test cases |
