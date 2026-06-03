@@ -63,6 +63,19 @@ Before marking a skill ready:
 - [ ] Every off-path case produces a visible, specific response
 - [ ] No off-path case produces plausible-looking wrong output
 
+**Build evaluations before writing the skill:**
+
+Adversarial cases tell you *what* to test. Evaluation-driven development tells you *when* — and the answer is "before the prose exists." Anthropic's discipline: write the evals first, so the skill solves a measured gap instead of an imagined one.
+
+1. Run the task with no skill loaded. Record where the model fails or lacks context — that failure is your baseline.
+2. Turn each failure into a concrete eval: an input, the files it needs, and the expected behavior. Write at least three, covering happy path plus the off-path categories above.
+3. Write the minimum skill content that moves the evals from fail to pass. Stop there — anything past passing is speculative bloat (see over-specification, attention/02).
+4. Re-run evals on every change. A regression in a previously-passing eval is the cheapest bug you will ever catch.
+
+**Test across the models you ship to:**
+
+A skill tuned on one model can under-specify for a smaller one or over-explain for a larger one. Run the evals on each target model — Haiku, Sonnet, and Opus if you support all three. Haiku reveals missing guidance; Opus reveals redundant guidance. The skill should pass on the weakest model you claim to support.
+
 ## Example
 
 **Before — happy-path only:**

@@ -73,6 +73,36 @@ Start with the minimum. If a step turns out to need more, request it at that ste
 3. Analyze and deliver findings
 ```
 
+**When the skill ships scripts, make them solve rather than punt:**
+
+A bundled script *is* a granted capability — it runs with whatever access the skill holds. A script that fails halfway and hands a broken state back to the model is both a reliability bug and a security one: the model improvises recovery with the very permissions you were trying to scope. Two Anthropic disciplines apply:
+
+- **Solve, don't punt.** Handle the error conditions inside the script — missing file, bad permission, empty input — rather than letting it throw and expecting the model to figure it out. The script knows its own failure modes; the model is guessing.
+
+```python
+# Punt (bad) — fails, model improvises with full skill permissions
+def read_config(path):
+    return open(path).read()
+
+# Solve (good) — handles the failure, returns a safe default
+def read_config(path):
+    try:
+        with open(path) as f:
+            return f.read()
+    except FileNotFoundError:
+        print(f"{path} not found, using empty config")
+        return ""
+```
+
+- **No voodoo constants.** Every magic number (timeout, retry count, batch size) must be justified in a comment. An unexplained constant is one nobody — including the model maintaining the script later — can safely change. If you can't state why the value is what it is, you don't yet know whether it's correct.
+
+```python
+# Bad: TIMEOUT = 47   # why 47?
+# Good:
+REQUEST_TIMEOUT = 30  # HTTP calls here finish well under 30s; longer covers slow links
+MAX_RETRIES = 3       # most intermittent failures clear by the 2nd retry
+```
+
 ## Example
 
 **Bad — broad permissions, no justification:**

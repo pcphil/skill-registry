@@ -48,6 +48,11 @@ A form letter, a textbook, and a recipe are all documents — but you wouldn't w
 
 **Use the decisions framework.** For each structural element (phases, references, subcommands, memory, budget allocation), apply the decision criteria from the decisions reference: does this element earn its attention cost?
 
+**Name and path hygiene (applies to every archetype).** Two conventions are cheap and portable:
+
+- **Name the skill in gerund form** — `processing-pdfs`, `analyzing-spreadsheets`, `reviewing-skills`. The `-ing` verb states the activity, which reads naturally in a registry and reinforces single-responsibility (see scope-creep, composition/02). The `name` field allows lowercase letters, numbers, and hyphens only. Noun phrases (`pdf-processing`) are an acceptable fallback; vague names (`helper`, `utils`) are not.
+- **Use forward slashes in every path**, even when authoring on Windows: `references/guide.md`, not `references\guide.md`. Backslashes break on Unix runtimes, and skills are meant to be portable.
+
 ## Example
 
 **Bad — utility skill with teaching ceremony:**

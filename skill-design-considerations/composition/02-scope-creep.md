@@ -45,7 +45,7 @@ After:
 **Set a growth budget:**
 
 Decide upfront how large the skill is allowed to get. A reasonable budget:
-- SKILL.md: 150 lines max
+- SKILL.md: 150 lines max (the attention-quality target; Anthropic's platform hard limit is 500, but staying near 150 keeps the whole file in high-recall range)
 - References: add one file per major sub-topic
 - When the budget is hit: evaluate whether the new content belongs here or in a new skill
 
