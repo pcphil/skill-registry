@@ -43,6 +43,24 @@ The description should answer: "Under exactly what conditions should this skill 
 **Include implicit negative triggers in the description:**
 - "Activates for skill creation and editing. Does NOT activate for general coding questions or skill usage questions."
 - This costs ~15 tokens and prevents most false positives
+- Note: Anthropic's official examples discriminate using positive `Use when [contexts]` phrasing alone and do not write explicit `Does NOT`. The explicit-negative form here is a deliberate extension — it adds a second discrimination signal at low token cost. Keep it, but the negative must still resolve to a redirect (`## Boundaries`), never a bare prohibition (see negation-failure, grounding/01).
+
+**Write the description in third person, always:**
+
+The `description` is injected verbatim into the system prompt. Mixed point of view degrades trigger matching, so phrase it as a statement about the skill, not about the agent or the user.
+
+```yaml
+# Good — third person, what + when
+description: Generates SKILL.md and platform rule files. Use when the user requests a new skill or rule.
+
+# Avoid — first person ("I")
+description: I help you create skills for any platform.
+
+# Avoid — second person ("you")
+description: You can use this to generate skill files.
+```
+
+This is Anthropic's stated rule: *"Always write in third person. The description is injected into the system prompt, and inconsistent point-of-view can cause discovery problems."* Note this governs the `description` only — it is the discovery-time analogue of the persona rule that governs the skill body (see state-leakage, grounding/02).
 
 **Test the description:**
 - Read your description and ask: "Could this describe 5 other things?" If yes, it's too vague.

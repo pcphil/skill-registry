@@ -77,6 +77,19 @@ The fallback prevents hallucination by giving the model a degraded-but-correct p
 
 **Treat reference paths as dependencies.** When renaming or restructuring reference files, search SKILL.md for every path that points to the old location. This is the same discipline as updating import paths after refactoring code.
 
+**Keep references one level deep.** Every reference file should link directly from SKILL.md — not from another reference. When a reference points to a further reference, the model tends to preview the nested file partially (e.g. reading only the first lines) rather than loading it whole, so it acts on incomplete content. A phantom reference fails loudly; a deeply-nested one fails quietly with half the information.
+
+```markdown
+# Bad — nested (SKILL.md → advanced.md → details.md)
+SKILL.md:   See references/advanced.md
+advanced.md: See references/details.md   ← model may only preview this
+
+# Good — flat (every file linked from SKILL.md)
+SKILL.md:   Advanced: references/advanced.md
+            API:      references/reference.md
+            Examples: references/examples.md
+```
+
 ## Example
 
 **Bad — phantom references:**

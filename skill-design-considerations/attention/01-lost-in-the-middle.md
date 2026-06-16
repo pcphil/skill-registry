@@ -57,7 +57,7 @@ Same for a grocery list: you remember milk (first thing written, before the list
 ## Fix
 
 **Structural fixes:**
-- Keep SKILL.md under 150 lines for the most critical path. Push detail to `references/`.
+- Keep SKILL.md under 150 lines for the most critical path. Push detail to `references/`. (500 lines is Anthropic's platform hard limit; 150 is the attention-quality target — well inside it, because recall degrades long before any hard limit.)
 - State the single most important constraint in the first 5 lines of the skill body.
 - Repeat critical constraints at the end of the file as a summary or checklist.
 - Use progressive disclosure: load only what's needed for the current step.
