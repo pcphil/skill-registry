@@ -26,6 +26,17 @@ description: One or two sentences — drives trigger matching and search.
 
 Copy or symlink a skill directory into `~/.agents/skills/` (or `.claude/skills/` for project-scoped skills) and reload plugins. The `description` field controls when the agent auto-activates the skill.
 
+## Available Skills
+
+| Skill | Description |
+|-------|-------------|
+| [learn-python](learn-python/) | Guided Python learning — zero to hero through real-world projects. Foundations, intermediate, and domain tracks (Web, Data, CLI, AI). |
+| [learn-react](learn-react/) | Guided React learning — components, state, hooks, and building real UIs. |
+| [learn-typescript](learn-typescript/) | Guided TypeScript learning — type system fundamentals to advanced patterns. |
+| [learn-dsa](learn-dsa/) | Guided Data Structures & Algorithms in Python — Big-O through graphs. Teaches via Concept → Analogy → Workshop loop with LeetCode-style problems. |
+| [skill-tutor](skill-tutor/) | Teaches how to build optimal, portable agent skills. Tutor, Reviewer, and Librarian modes. |
+| [skill-creator-agnostic](skill-creator-agnostic/) | Scaffolds new skills from templates for Claude Code, Cursor, Copilot, and other agents. |
+
 ## Best Practices
 
 - **Keep SKILL.md short** — under 500 lines. Move heavy content to `references/` and load it on demand.
