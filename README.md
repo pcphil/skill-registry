@@ -12,6 +12,7 @@ A personalized skill registry for coding agents — reusable agent skills design
 | `learn-typescript` | Adaptive TypeScript tutor that teaches through explanations, examples, and hands-on exercises |
 | `learn-nextjs` | Guided Next.js App Router + TypeScript learning assistant — builds on learn-react foundations |
 | `learn-python` | Python learning skill |
+| `web-automation` | Writes Python Playwright scripts for browser automation — forms, auth flows, pagination, multi-tab |
 | `sdet-test-auditor` | Audits test suites for quality and coverage gaps |
 | `sdet-test-builder` | Generates test scaffolding and test cases |
 
