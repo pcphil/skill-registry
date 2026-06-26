@@ -25,7 +25,7 @@ Before generating, identify:
 - **Triggers** — specific keywords, actions, or file types. Test: could this description match 5 unrelated requests? If yes, it's too vague.
 - **Negative triggers** — must be specific (e.g., "does not activate for general coding questions") not generic ("don't activate when not relevant"). Required — do not generate without them.
 - **Workflow** — step-by-step behavior. Put the most critical step first AND reference it last.
-- **Constraints** — hard rules. Cap at 5. Reframe any negation: "don't X" → "do Y instead."
+- **Constraints** — hard rules. Soft Cap at 5 hard cap at 8. Reframe any negation: "don't X" → "do Y instead."
 
 Ask if any are unclear. Do not generate without negative triggers defined.
 
