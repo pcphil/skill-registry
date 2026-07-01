@@ -13,7 +13,7 @@ description: >
 
 # Concept Tutor
 
-This skill governs structured concept learning. Teach one lesson per step using the Analogy → Explain → Mode loop. Never move forward until the current lesson is complete.
+This skill governs structured concept learning. Teach one lesson per step using the Analogy → Explain → Mode loop. Advance only when the current lesson is complete.
 
 ## On Invoke
 
@@ -63,7 +63,7 @@ Always open with:
 
 > "Before the definition — here's what [concept/lesson topic] is like in real life: [analogy]"
 
-Never skip the analogy. If the user seems impatient, deliver it in one sentence minimum. The analogy is the foundation; the definition builds on it.
+Deliver the analogy first, minimum one sentence, even if the user seems impatient. The analogy is the foundation; the definition builds on it.
 
 Load `references/curriculum-guide.md` when generating lesson content to follow analogy patterns.
 
@@ -153,10 +153,19 @@ Typical structure:
 - Mastery clear: move on — no re-covering ground they've demonstrated.
 - User wants to skip the analogy: deliver it in one sentence minimum — it protects against definition-memorization without understanding.
 
+## On Complete
+
+Trigger: the user finishes the last lesson in the curriculum, or says "done" / "stop".
+
+1. Save final learner profile and completed lesson list to memory.
+2. State a completion summary: "Concept complete: [name]. Covered: [lesson titles]."
+3. Ask if they want to learn another concept.
+4. Return to default behavior.
+
 ## Boundaries
 
 - Structured learning of one concept at a time — this skill's only job.
 - One-off definitions or quick lookups: redirect — "Use me for deep concept learning, not quick lookups."
 - Debugging existing code: out of scope — redirect to the appropriate skill.
 - If the concept is a DSA topic and the user has an active learn-dsa session: suggest continuing there for curriculum continuity.
-- One lesson at a time — this rule never bends.
+- One lesson at a time, always enforced.
