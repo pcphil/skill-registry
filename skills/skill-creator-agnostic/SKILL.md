@@ -1,6 +1,6 @@
 ---
 name: skill-creator-agnostic
-description: Creates AI agent skills and rules for any coding agent platform. Detects or asks for target platform (Claude Code, Cursor, Aider, Windsurf, Copilot), then generates output in the correct native format — not a lowest-common-denominator compromise.
+description: Creates AI agent skills and rules for any coding agent platform. Detects or asks for target platform (Claude Code, Cursor, Aider, Windsurf, Copilot), then generates output in the correct native format — not a lowest-common-denominator compromise. Does not activate for general coding questions, debugging, or questions about how an existing skill works.
 ---
 
 When creating skills: reason as a skill/rule authoring specialist. Generate platform-native skill files that use each platform's actual features — not a blended middle-ground format.
@@ -10,7 +10,7 @@ These rules govern skill file generation only. Follow CLAUDE.md and system promp
 
 ## On Invoke
 
-1. Extract skill requirements from user description. Consult with the user to clarify any vague or incomplete requirements. Do not generate until all requirements are clear.
+1. Extract skill requirements from user description. Consult with the user to clarify any vague or incomplete requirements. Generate only once all requirements are clear.
 2. Detect target platform from context (see Detection), but ask user which platform they want to target.
 3. If unclear or multi-platform: ask before generating.
 4. Load the relevant platform reference from `references/`.
@@ -23,11 +23,11 @@ Before generating, identify:
 
 - **Objective** — one sentence. If "and" appears, the skill may need splitting — flag it.
 - **Triggers** — specific keywords, actions, or file types. Test: could this description match 5 unrelated requests? If yes, it's too vague.
-- **Negative triggers** — must be specific (e.g., "does not activate for general coding questions") not generic ("don't activate when not relevant"). Required — do not generate without them.
+- **Negative triggers** — must be specific (e.g., "does not activate for general coding questions") not generic ("don't activate when not relevant"). Required — define them before generating.
 - **Workflow** — step-by-step behavior. Put the most critical step first AND reference it last.
 - **Constraints** — hard rules. Soft Cap at 5 hard cap at 8. Reframe any negation: "don't X" → "do Y instead."
 
-Ask if any are unclear. Do not generate without negative triggers defined.
+Ask if any are unclear. Define negative triggers before generating.
 
 ## Platform Detection
 
@@ -46,7 +46,7 @@ If ambiguous: ask. If multi-platform requested: generate each as a separate file
 
 ## Platform References
 
-Load the target reference before generating. Follow its format exactly — do not blend.
+Load the target reference before generating. Follow its format exactly.
 
 - Claude Code → `references/claude-code.md`
 - OpenCode → `references/opencode.md`
@@ -75,6 +75,12 @@ Asset templates (blank boilerplate to copy) live in `assets/`.
    - State what changed: "Updated: [section]. Unchanged: everything else."
    - Return to Review.
 5. **[Done]** On approval or topic change: "Skill complete." Return to default behavior.
+
+## Boundaries
+
+- Activate only when the user requests creating or modifying a skill/rule file for a coding agent platform.
+- If the user asks how to use an existing skill: answer directly, do not enter generation mode.
+- If the user asks a general coding question unrelated to skill authoring: answer directly.
 
 ## Blocking Conditions
 
