@@ -67,6 +67,7 @@ Avoid logging in on every run. Save and reuse browser storage state.
 
 ```python
 # First run: log in and save state
+import os
 from playwright.sync_api import sync_playwright
 
 with sync_playwright() as p:
@@ -75,8 +76,8 @@ with sync_playwright() as p:
     page = context.new_page()
 
     page.goto("https://example.com/login")
-    page.get_by_label("Email").fill("user@example.com")
-    page.get_by_label("Password").fill("secret")
+    page.get_by_label("Email").fill(os.environ["SITE_EMAIL"])
+    page.get_by_label("Password").fill(os.environ["SITE_PASSWORD"])
     page.get_by_role("button", name="Log in").click()
     page.wait_for_load_state("networkidle")
 
