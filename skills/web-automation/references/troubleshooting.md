@@ -85,8 +85,8 @@ page.wait_for_load_state("networkidle")
 
 if page.url.startswith("https://example.com/login"):
     # Session expired — log in again and re-save state
-    page.get_by_label("Email").fill("user@example.com")
-    page.get_by_label("Password").fill("secret")
+    page.get_by_label("Email").fill(os.environ["SITE_EMAIL"])
+    page.get_by_label("Password").fill(os.environ["SITE_PASSWORD"])
     page.get_by_role("button", name="Log in").click()
     page.wait_for_load_state("networkidle")
     page.context.storage_state(path="auth.json")
