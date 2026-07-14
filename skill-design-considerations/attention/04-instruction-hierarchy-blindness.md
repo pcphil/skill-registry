@@ -2,7 +2,7 @@
 
 ## What it is
 
-Agent environments layer multiple sources of instructions: system prompt, user-level config (CLAUDE.md), loaded skills, and the active user message. These sources have a precedence order — system prompt is most authoritative, followed by user config, then skills. User messages have high practical weight due to recency but are designed to be lower in the hierarchy than system prompts. A skill that ignores this hierarchy will be silently overridden without any indication of conflict, causing it to behave inconsistently across environments.
+Agent environments layer multiple sources of instructions: system prompt, user-level config (CLAUDE.md), loaded skills, and the active user message. These sources have a rough precedence — system prompt is most authoritative, followed by user config, then skills. User messages sit below the system prompt in the designed hierarchy, but their recency gives them high practical weight, so in practice they often override a skill. A skill that ignores this layering will be silently overridden without any indication of conflict, causing it to behave inconsistently across environments.
 
 This is distinct from instruction conflict (grounding/03), which covers clashes between two specific instructions. Hierarchy blindness is a design-time omission: the skill was written as if it's the only instruction source, with no consideration of where it sits in the stack.
 
@@ -28,11 +28,11 @@ A new employee writes a detailed process guide for how to handle customer calls.
 
 **Know your position in the stack:**
 
-Assume this precedence order (most authoritative to least):
+Assume this rough precedence (most authoritative to least), noting the last item is recency-weighted rather than strictly ranked:
 1. System prompt (set by platform/operator — highest authority)
 2. User config (CLAUDE.md, settings)
 3. Active skill (you)
-4. User message (high recency weight, but designed to rank below system prompt)
+4. User message (below the system prompt by design, but recency often makes it win in practice — don't assume the skill outranks it)
 
 Design the skill to function within this hierarchy, not above it.
 
