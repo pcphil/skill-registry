@@ -32,7 +32,7 @@ Copy or symlink a skill directory into `~/.agents/skills/` (or `.claude/skills/`
 |-------|-------------|
 | [learn-python](learn-python/) | Guided Python learning — zero to hero through real-world projects. Foundations, intermediate, and domain tracks (Web, Data, CLI, AI). |
 | [learn-react](learn-react/) | Guided React learning — components, state, hooks, and building real UIs. |
-| [learn-typescript](learn-typescript/) | Guided TypeScript learning — type system fundamentals to advanced patterns. |
+| [learn-typescript](learn-typescript/) | Guided TypeScript learning — type system fundamentals through generics to advanced types. Teaches via Concept → Analogy → Workshop loop, with each workshop verified by `tsc --noEmit --strict`. |
 | [learn-dsa](learn-dsa/) | Guided Data Structures & Algorithms in Python — Big-O through graphs. Teaches via Concept → Analogy → Workshop loop with LeetCode-style problems. |
 | [skill-tutor](skill-tutor/) | Teaches how to build optimal, portable agent skills. Tutor, Reviewer, and Librarian modes. |
 | [skill-creator-agnostic](skill-creator-agnostic/) | Scaffolds new skills from templates for Claude Code, Cursor, Copilot, and other agents. |

@@ -9,7 +9,7 @@ A personalized skill registry for coding agents — reusable agent skills design
 | `skill-tutor` | Teaches how to build optimal, portable agent skills for coding agents |
 | `skill-creator-agnostic` | Generates skill and rule files for any coding agent platform in the correct native format |
 | `learn-react` | Guided React + Vite learning assistant — teaches by doing with real project goals and code review |
-| `learn-typescript` | Adaptive TypeScript tutor that teaches through explanations, examples, and hands-on exercises |
+| `learn-typescript` | Guided TypeScript learning assistant — type system fundamentals to advanced types, with every workshop verified by the compiler |
 | `learn-nextjs` | Guided Next.js App Router + TypeScript learning assistant — builds on learn-react foundations |
 | `learn-python` | Python learning skill |
 | `web-automation` | Writes Python Playwright scripts for browser automation — forms, auth flows, pagination, multi-tab |
